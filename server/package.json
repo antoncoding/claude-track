@@ -1,7 +1,7 @@
 {
-  "name": "claude-todo-tracker-server",
+  "name": "claude-track-server",
   "version": "1.0.0",
-  "description": "HTTP server for Claude Code Todo Tracker",
+  "description": "HTTP server for Claude Track",
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",

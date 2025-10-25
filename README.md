@@ -1,4 +1,4 @@
-# Claude Code Todo Tracker
+# Claude Track
 
 Visual task management interface with drag-and-drop prioritization for Claude Code workflows.
 
@@ -15,7 +15,7 @@ Visual task management interface with drag-and-drop prioritization for Claude Co
 1. Create a local marketplace directory
 2. Clone/copy this plugin to the marketplace
 3. Add marketplace: `/plugin marketplace add /path/to/marketplace`
-4. Install plugin: `/plugin install claude-todo-tracker@your-marketplace`
+4. Install plugin: `/plugin install claude-track@your-marketplace`
 
 ## Usage
 
@@ -42,16 +42,16 @@ pnpm -C server run dev
 
 ## Share via Marketplace
 
-This repo now doubles as a local marketplace (`.claude-plugin/marketplace.json`). To let teammates install the plugin:
+This repo now doubles as a local marketplace (`.claude-plugin/marketplace.json`). To let teammates install Claude Track:
 
 1. Share the repo path (or host it on Git/GitHub)
 2. In Claude Code, run:
    ```
-   /plugin marketplace add /full/path/to/todo-subagent
+   /plugin marketplace add /full/path/to/claude-track
    ```
 3. Install the plugin from that marketplace:
    ```
-   /plugin install claude-todo-tracker@todo-tracker-marketplace
+   /plugin install claude-track@claude-track-marketplace
    ```
 4. Restart Claude Code so the hooks start the server automatically.
 
@@ -60,14 +60,14 @@ To bundle this marketplace with a project repo, add the following to that projec
 ```json
 {
   "extraKnownMarketplaces": {
-    "todo-tracker-marketplace": {
+    "claude-track-marketplace": {
       "source": {
         "source": "path",
-        "path": "/full/path/to/todo-subagent"
+        "path": "/full/path/to/claude-track"
       }
     }
   },
-  "enabledPlugins": ["claude-todo-tracker@todo-tracker-marketplace"]
+  "enabledPlugins": ["claude-track@claude-track-marketplace"]
 }
 ```
 

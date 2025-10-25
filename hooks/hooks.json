@@ -10,7 +10,7 @@
           },
           {
             "type": "command",
-            "command": "node ${CLAUDE_PLUGIN_ROOT}/server/dist/server.js > ${CLAUDE_PROJECT_DIR}/.claude/todo-server.log 2>&1 &"
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/server/dist/server.js > ${CLAUDE_PROJECT_DIR}/.claude/claude-track-server.log 2>&1 &"
           },
           {
             "type": "command",

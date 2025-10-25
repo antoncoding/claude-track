@@ -1,7 +1,7 @@
 {
-  "name": "claude-todo-tracker",
+  "name": "claude-track",
   "version": "1.0.0",
-  "description": "Visual task management interface with drag-and-drop prioritization for Claude Code workflows",
+  "description": "Claude Track – visual task management interface with drag-and-drop prioritization for Claude Code workflows",
   "author": {
     "name": "Your Name",
     "email": "[email protected]"
