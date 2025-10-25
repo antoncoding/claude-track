@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import { promises as fs } from 'fs';
 import { TodoData, Task } from './types';
 
 export class TodoParser {

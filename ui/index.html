@@ -13,66 +13,45 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #090d14;
-      color: #f8f9fb;
-      padding: 36px 20px;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #070b12;
+      color: #f6f7fb;
+      padding: 40px 20px;
       min-height: 100vh;
     }
-    .container {
+    .app-shell {
       max-width: 960px;
       margin: 0 auto;
-      padding: 24px 32px 38px;
-      border-radius: 16px;
+      padding: 28px 36px 40px;
+      border-radius: 18px;
       background: #0f1622;
       border: 1px solid rgba(255,255,255,0.04);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.55);
     }
     .header {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
       align-items: flex-start;
-      margin-bottom: 24px;
+      gap: 16px;
+      margin-bottom: 28px;
     }
     .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
       font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: #8ea0be;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     h1 { font-size: 34px; font-weight: 600; margin-bottom: 6px; }
     .subtitle { color: #9fb2d2; font-size: 15px; }
     .progress-chip {
-      padding: 10px 16px;
+      padding: 10px 18px;
       border-radius: 999px;
       background: rgba(255,255,255,0.08);
       color: #7ee787;
       font-weight: 600;
-      min-width: 110px;
+      min-width: 108px;
       text-align: center;
-    }
-    .progress-section { margin-bottom: 26px; }
-    .progress-bar {
-      width: 100%;
-      height: 10px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.12);
-      overflow: hidden;
-      margin-bottom: 8px;
-    }
-    .progress-fill {
-      height: 100%;
-      border-radius: inherit;
-      background: linear-gradient(120deg, #1df299, #48a8ff);
-      transition: width 0.35s ease;
-    }
-    .progress-metrics {
-      display: flex;
-      justify-content: space-between;
-      color: #8ea0be;
-      font-size: 13px;
     }
     .agent-panel {
       display: inline-flex;
@@ -81,8 +60,8 @@
       padding: 14px 18px;
       margin-bottom: 26px;
       border-radius: 12px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
     }
     .status-dot {
       width: 10px;
@@ -94,8 +73,34 @@
     .agent-panel.sleep .status-dot { background: #a371f7; }
     .agent-panel.idle .status-dot { background: #ffd580; }
     .agent-info { display: flex; flex-direction: column; gap: 4px; }
-    .agent-info span { text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; color: #8ea0be; }
+    .agent-info span {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 11px;
+      color: #8ea0be;
+    }
     .agent-status-text { font-size: 15px; color: #f4f6fb; }
+    .progress-section { margin-bottom: 26px; }
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(120deg, #1df299, #48a8ff);
+      transition: width 0.3s ease;
+    }
+    .progress-metrics {
+      display: flex;
+      justify-content: space-between;
+      color: #8ea0be;
+      font-size: 13px;
+    }
     .section-heading {
       color: #8ea0be;
       font-size: 12px;
@@ -106,8 +111,8 @@
     .current-card {
       padding: 16px 18px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.03);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
       margin-bottom: 24px;
     }
     .current-card h3 { font-size: 13px; color: #8ea0be; letter-spacing: 0.05em; margin-bottom: 6px; }
@@ -132,7 +137,7 @@
     .empty-state {
       padding: 28px;
       border-radius: 14px;
-      background: rgba(255,255,255,0.02);
+      background: rgba(255,255,255,0.03);
       color: #9fb2d2;
       text-align: center;
     }
@@ -148,44 +153,190 @@
     function App() {
       const [data, setData] = useState(null);
       const [draggingId, setDraggingId] = useState(null);
-@@
--      const agentAscii = " ▐▛███▜▌   Claude Code v2.0.10\n▝▜█████▛▘  Sonnet 4.5 · Claude Pro\n  ▘▘ ▝▝   ";
--
-       function resolveAgentState() {
-         if (!data || data.metadata.total === 0) {
-           return { state: 'sleep', label: 'Standing by for new tasks' };
-@@
--          <div className="header">
-+          <div className="header">
-             <div>
-               <p className="eyebrow">Claude Todo Tracker</p>
-               <h1>{data.projectName}</h1>
-               <p className="subtitle">
-                 {data.metadata.completed} of {data.metadata.total} tasks complete
-               </p>
-             </div>
-             <div className="progress-chip">{data.metadata.progress}%</div>
-           </div>
- 
-           <div className={`agent-panel ${agentState.state}`}>
--            <pre className="agent-ascii">{agentAscii}</pre>
--            <div>
--              <div className="agent-status-label">
--                <span className="status-dot"></span>
--                <span>{agentState.state === 'working' ? 'Agent Working' : agentState.state === 'sleep' ? 'Agent Sleeping' : 'Agent Idle'}</span>
--              </div>
--              <p className="agent-status-text">{agentState.label}</p>
--            </div>
-+            <span className="status-dot"></span>
-+            <div className="agent-info">
-+              <span>{agentState.state === 'working' ? 'Agent working' : agentState.state === 'sleep' ? 'Agent sleeping' : 'Agent idle'}</span>
-+              <p className="agent-status-text">{agentState.label}</p>
-+            </div>
-           </div>
-@@
--          <div className="tasks-section">
-+          <div className="tasks-section">
-             <div className="section-heading">Task Queue</div>
-             {allTasks.length === 0 ? (
-               <div className="empty-state">
-*** End Patch
+
+      useEffect(() => {
+        fetchTodos();
+        const interval = setInterval(fetchTodos, 2000);
+        return () => clearInterval(interval);
+      }, []);
+
+      async function fetchTodos() {
+        try {
+          const res = await fetch('http://localhost:3333/api/todos');
+          const json = await res.json();
+          setData(json);
+        } catch (error) {
+          console.error('Failed to fetch todos:', error);
+        }
+      }
+
+      async function updateTodos(newTasks) {
+        try {
+          await fetch('http://localhost:3333/api/todos', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tasks: newTasks })
+          });
+          fetchTodos();
+        } catch (error) {
+          console.error('Failed to update todos:', error);
+        }
+      }
+
+      function handleDragStart(e, taskId) {
+        setDraggingId(taskId);
+        e.dataTransfer.effectAllowed = 'move';
+      }
+
+      function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+      }
+
+      function handleDrop(e, targetId) {
+        e.preventDefault();
+        if (!draggingId || draggingId === targetId) return;
+
+        const allTasks = data.currentTask
+          ? [data.currentTask, ...data.tasks]
+          : data.tasks;
+
+        const dragIndex = allTasks.findIndex(t => t.id === draggingId);
+        const targetIndex = allTasks.findIndex(t => t.id === targetId);
+
+        const newTasks = [...allTasks];
+        const [removed] = newTasks.splice(dragIndex, 1);
+        newTasks.splice(targetIndex, 0, removed);
+
+        const updatedTasks = newTasks.map((task, idx) => ({
+          ...task,
+          priority: idx
+        }));
+
+        updateTodos(updatedTasks);
+        setDraggingId(null);
+      }
+
+      function handleDragEnd() {
+        setDraggingId(null);
+      }
+
+      function toggleComplete(taskId) {
+        const allTasks = data.currentTask
+          ? [data.currentTask, ...data.tasks]
+          : data.tasks;
+
+        const updatedTasks = allTasks.map(task =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        );
+
+        updateTodos(updatedTasks);
+      }
+
+      if (!data) {
+        return (
+          <div className="app-shell">
+            <p className="empty-state">Loading tasks…</p>
+          </div>
+        );
+      }
+
+      const allTasks = data.currentTask
+        ? [data.currentTask, ...data.tasks]
+        : data.tasks;
+
+      function resolveAgentState() {
+        if (!data || data.metadata.total === 0) {
+          return { state: 'sleep', label: 'Standing by for new tasks' };
+        }
+        if (data.metadata.progress === 100) {
+          return { state: 'idle', label: 'All tasks complete. High five!' };
+        }
+        if (data.currentTask && !data.currentTask.completed) {
+          return { state: 'working', label: `Working on: ${data.currentTask.description}` };
+        }
+        return { state: 'idle', label: 'Waiting for the next prioritized task' };
+      }
+
+      const agentState = resolveAgentState();
+
+      return (
+        <div className="app-shell">
+          <div className="header">
+            <div>
+              <p className="eyebrow">Claude Todo Tracker</p>
+              <h1>{data.projectName}</h1>
+              <p className="subtitle">
+                {data.metadata.completed} of {data.metadata.total} tasks complete
+              </p>
+            </div>
+            <div className="progress-chip">{data.metadata.progress}%</div>
+          </div>
+
+          <div className={`agent-panel ${agentState.state}`}>
+            <span className="status-dot"></span>
+            <div className="agent-info">
+              <span>{agentState.state === 'working' ? 'Agent working' : agentState.state === 'sleep' ? 'Agent sleeping' : 'Agent idle'}</span>
+              <p className="agent-status-text">{agentState.label}</p>
+            </div>
+          </div>
+
+          <div className="progress-section">
+            <div className="progress-bar">
+              <div
+                className="progress-fill"
+                style={{ width: `${data.metadata.progress}%` }}
+              ></div>
+            </div>
+            <div className="progress-metrics">
+              <span>Total tasks: {data.metadata.total}</span>
+              <span>Completed: {data.metadata.completed}</span>
+            </div>
+          </div>
+
+          {data.currentTask && (
+            <div className="current-card">
+              <h3>Currently tackling</h3>
+              <p>{data.currentTask.description}</p>
+            </div>
+          )}
+
+          <div className="tasks-section">
+            <div className="section-heading">Task queue</div>
+            {allTasks.length === 0 ? (
+              <div className="empty-state">
+                No tasks yet. Start working and Claude will populate TODO.md automatically.
+              </div>
+            ) : (
+              <div className="task-list">
+                {allTasks.map(task => (
+                  <div
+                    key={task.id}
+                    className={`task ${task.completed ? 'completed' : ''} ${draggingId === task.id ? 'dragging' : ''}`}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, task.id)}
+                    onDragOver={handleDragOver}
+                    onDrop={(e) => handleDrop(e, task.id)}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <input
+                      type="checkbox"
+                      className="task-checkbox"
+                      checked={task.completed}
+                      onChange={() => toggleComplete(task.id)}
+                    />
+                    <div className="task-desc">{task.description}</div>
+                    <div className="task-meta">Priority {task.priority}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
