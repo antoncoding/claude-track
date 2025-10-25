@@ -1,0 +1,12 @@
+{
+  "name": "claude-todo-tracker",
+  "version": "1.0.0",
+  "description": "Visual task management interface with drag-and-drop prioritization for Claude Code workflows",
+  "author": {
+    "name": "Your Name",
+    "email": "[email protected]"
+  },
+  "keywords": ["tasks", "todo", "progress", "workflow", "ui"],
+  "hooks": "./hooks/hooks.json",
+  "skills": "./skills/"
+}

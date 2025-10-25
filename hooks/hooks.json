@@ -1,0 +1,44 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd ${CLAUDE_PLUGIN_ROOT}/server && npm install --silent 2>&1 && npm run build 2>&1",
+            "timeout": 60
+          },
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/server/dist/server.js > ${CLAUDE_PROJECT_DIR}/.claude/todo-server.log 2>&1 &"
+          },
+          {
+            "type": "command",
+            "command": "sleep 3 && (command -v open && open http://localhost:3333 || command -v xdg-open && xdg-open http://localhost:3333 || echo 'Open http://localhost:3333')"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ${CLAUDE_PLUGIN_ROOT}/server/dist/update-progress.js"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pkill -f 'node.*server.js.*3333' || lsof -ti:3333 | xargs kill -9 || true"
+          }
+        ]
+      }
+    ]
+  }
+}
