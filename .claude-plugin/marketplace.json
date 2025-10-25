@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "claude-track",
-      "source": ".",
+      "source": "./",
       "description": "Claude Track – visual task management interface with drag-and-drop prioritization for Claude Code workflows",
       "version": "1.0.0",
       "keywords": ["tasks", "todo", "progress", "workflow", "ui"],
