@@ -25,6 +25,62 @@ Start Claude Code - the plugin automatically:
 3. Creates TODO.md in your project root
 4. Updates progress after each tool use
 
+## Local Development (pnpm)
+
+```bash
+pnpm install --dir server
+pnpm --dir server run build
+pnpm --dir server start
+```
+
+The workspace is defined at the repo root (`pnpm-workspace.yaml`) so you can also run commands from the top level:
+
+```bash
+pnpm install
+pnpm -C server run dev
+```
+
+## Share via Marketplace
+
+This repo now doubles as a local marketplace (`.claude-plugin/marketplace.json`). To let teammates install the plugin:
+
+1. Share the repo path (or host it on Git/GitHub)
+2. In Claude Code, run:
+   ```
+   /plugin marketplace add /full/path/to/todo-subagent
+   ```
+3. Install the plugin from that marketplace:
+   ```
+   /plugin install claude-todo-tracker@todo-tracker-marketplace
+   ```
+4. Restart Claude Code so the hooks start the server automatically.
+
+To bundle this marketplace with a project repo, add the following to that project's `.claude/settings.json`:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "todo-tracker-marketplace": {
+      "source": {
+        "source": "path",
+        "path": "/full/path/to/todo-subagent"
+      }
+    }
+  },
+  "enabledPlugins": ["claude-todo-tracker@todo-tracker-marketplace"]
+}
+```
+
+## Testing in Claude Code
+
+1. Add the marketplace and install the plugin (steps above)
+2. Open the Claude terminal logs to confirm the SessionStart hook builds the server
+3. The plugin will launch http://localhost:3333 automatically—verify the UI shows "Loading tasks..."
+4. Trigger a tool (e.g., `Write` or `Bash`) so the PostToolUse hook runs `update-progress`
+5. Inspect `${CLAUDE_PROJECT_DIR}/TODO.md` to confirm the writer updates tasks correctly
+
+If you prefer manual testing without Claude, run `pnpm --dir server dev` and open the same URL.
+
 ## TODO.md Format
 
 ```markdown

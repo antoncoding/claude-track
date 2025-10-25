@@ -1,0 +1,20 @@
+{
+  "name": "todo-tracker-marketplace",
+  "owner": {
+    "name": "Anton Cheng",
+    "email": "[email protected]"
+  },
+  "plugins": [
+    {
+      "name": "claude-todo-tracker",
+      "source": ".",
+      "description": "Visual task management interface with drag-and-drop prioritization for Claude Code workflows",
+      "version": "1.0.0",
+      "keywords": ["tasks", "todo", "progress", "workflow", "ui"],
+      "author": {
+        "name": "Anton Cheng",
+        "email": "[email protected]"
+      }
+    }
+  ]
+}
